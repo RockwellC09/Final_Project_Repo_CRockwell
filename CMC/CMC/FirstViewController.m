@@ -19,7 +19,6 @@ UILabel *oldView2;
 bool first;
 bool first2;
 NSInteger stepVal;
-bool isStepper;
 NSString *fromStr;
 NSString *toStr;
 
@@ -113,13 +112,7 @@ NSString *toStr;
 // ran when tempurature slider value is changed
 - (IBAction)updateProgress:(UISlider *)sender {
     farLabel.text = [NSString stringWithFormat:@"%.0f° F", self.circularSlider.value];
-    celLabel.text = [NSString stringWithFormat:@"%.0f° C", (self.circularSlider.value - 32) * 5 / 9 ];
-    if (isStepper) {
-        // do nothing
-    } else {
-        myTempStepper.value = self.circularSlider.value;
-        stepVal = myTempStepper.value;
-    }
+    celLabel.text = [NSString stringWithFormat:@"%.0f° C", floor((self.circularSlider.value - 32)) * 5 / 9 ];
 }
 
 // ran when keyboard done button clicked
@@ -149,26 +142,21 @@ NSString *toStr;
     // check to see if stepper should add, subtract, or reset
     if (stepVal >= myTempStepper.value) {
         if (self.circularSlider.value == 1) {
-            isStepper = true;
             [self.circularSlider setValue:600];
-            isStepper = false;
+            [myTempStepper setValue:0];
             stepVal = 0;
         } else {
-            isStepper = true;
             [self.circularSlider setValue:self.circularSlider.value - 1];
-            isStepper = false;
             stepVal--;
         }
     } else {
         if (self.circularSlider.value < 600) {
-            isStepper = true;
             [self.circularSlider setValue:self.circularSlider.value + 1];
             stepVal++;
         } else {
-            isStepper = true;
             [self.circularSlider setValue:1];
-            isStepper = false;
-            stepVal = 1;
+            [myTempStepper setValue:0];
+            stepVal = 0;
         }
     }
     

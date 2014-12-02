@@ -20,7 +20,17 @@
     // Override point for customization after application launch.
     
     // check the screen size and load the proper storyboard
-    if ([[UIScreen mainScreen] bounds].size.height == 568) {
+    if ([[UIScreen mainScreen] bounds].size.height == 480) {
+        //iPhone 4
+        self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+        
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main3.5" bundle:nil];
+        
+        FirstViewController *iPhone5View = [storyBoard instantiateViewControllerWithIdentifier:@"View"];
+        
+        self.window.rootViewController = iPhone5View;
+        [self.window makeKeyAndVisible];
+    } else if ([[UIScreen mainScreen] bounds].size.height == 568) {
         //iPhone 5
         self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
         
