@@ -56,9 +56,9 @@ NSString *toStr;
     toStr = @"US Teaspoons";
     
     // get screen size
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    //CGFloat screenWidth = screenRect.size.width;
-    CGFloat screenHeight = screenRect.size.height;
+    CGRect myScreenRect = [[UIScreen mainScreen] bounds];
+    //CGFloat screenWidth = myScreenRect.size.width;
+    CGFloat myScreenHeight = myScreenRect.size.height;
     
     // add done button for keyboard
     UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
@@ -73,9 +73,10 @@ NSString *toStr;
     valField.inputAccessoryView = keyboardDoneButtonView;
     
     // setup bottom slider
-    self.sliderView2 = [[CategorySliderView alloc] initWithSliderHeight:60 andCategoryViews:@[[self labelWithText2:@" US Teaspoons"], [self labelWithText2:@"US Tablespoons"], [self labelWithText2:@"Cups"], [self labelWithText2:@"US Ounces"], [self labelWithText2:@"US Gallon"], [self labelWithText2:@"US Quart"], [self labelWithText2:@"US Pint"], [self labelWithText2:@"Kilograms"], [self labelWithText2:@"Grams"], [self labelWithText2:@"Milligrams"], [self labelWithText2:@"Liter"], [self labelWithText2:@"Milliliters"], [self labelWithText2:@"Imp Teaspoons"], [self labelWithText2:@"Imp Tablespoons"], [self labelWithText2:@"Imp Ounces"], [self labelWithText2:@"Imp Gallons"] ,[self labelWithText2:@"Imp Quarts"], [self labelWithText2:@"Imp Pints"]] categorySelectionBlock:^(UIView *categoryView, NSInteger categoryIndex) {
+    self.sliderView2 = [[CategorySliderView alloc] initWithSliderHeight:60 andCategoryViews:@[[self labelWithText2:@"US Teaspoons"], [self labelWithText2:@"US Tablespoons"], [self labelWithText2:@"Cups"], [self labelWithText2:@"US Ounces"], [self labelWithText2:@"US Gallons"], [self labelWithText2:@"US Quarts"], [self labelWithText2:@"US Pints"], [self labelWithText2:@"Kilograms"], [self labelWithText2:@"Grams"], [self labelWithText2:@"Liters"], [self labelWithText2:@"Milliliters"], [self labelWithText2:@"Imp Teaspoons"], [self labelWithText2:@"Imp Tablespoons"], [self labelWithText2:@"Imp Ounces"], [self labelWithText2:@"Imp Gallons"] ,[self labelWithText2:@"Imp Quarts"], [self labelWithText2:@"Imp Pints"]] categorySelectionBlock:^(UIView *categoryView, NSInteger categoryIndex) {
         [oldView2 setFont:[UIFont fontWithName:@"Raleway-Medium" size:16.0]];
         UILabel *selectedView = (UILabel *)categoryView;
+        // bold the selected item
         [selectedView setFont:[UIFont fontWithName:@"Raleway-Bold" size:17.0]];
         oldView2 = (UILabel *)categoryView;
         [resultsLabel setText:[NSString stringWithFormat:@"1"]];
@@ -87,9 +88,10 @@ NSString *toStr;
     }];
     
     // setup top slider
-    self.sliderView = [[CategorySliderView alloc] initWithSliderHeight:60 andCategoryViews:@[[self labelWithText:@" US Teaspoons"], [self labelWithText:@"US Tablespoons"], [self labelWithText:@"Cups"], [self labelWithText:@"US Ounces"], [self labelWithText:@"US Gallon"], [self labelWithText:@"US Quart"], [self labelWithText:@"US Pint"], [self labelWithText:@"Kilograms"], [self labelWithText:@"Grams"], [self labelWithText:@"Milligrams"], [self labelWithText:@"Liter"], [self labelWithText:@"Milliliters"], [self labelWithText:@"Imp Teaspoons"], [self labelWithText:@"Imp Tablespoons"], [self labelWithText:@"Imp Ounces"], [self labelWithText:@"Imp Gallons"] ,[self labelWithText:@"Imp Quarts"], [self labelWithText:@"Imp Pints"]] categorySelectionBlock:^(UIView *categoryView, NSInteger categoryIndex) {
+    self.sliderView = [[CategorySliderView alloc] initWithSliderHeight:60 andCategoryViews:@[[self labelWithText:@"US Teaspoons"], [self labelWithText:@"US Tablespoons"], [self labelWithText:@"Cups"], [self labelWithText:@"US Ounces"], [self labelWithText:@"US Gallons"], [self labelWithText:@"US Quarts"], [self labelWithText:@"US Pints"], [self labelWithText:@"Kilograms"], [self labelWithText:@"Grams"], [self labelWithText:@"Liters"], [self labelWithText:@"Milliliters"], [self labelWithText:@"Imp Teaspoons"], [self labelWithText:@"Imp Tablespoons"], [self labelWithText:@"Imp Ounces"], [self labelWithText:@"Imp Gallons"] ,[self labelWithText:@"Imp Quarts"], [self labelWithText:@"Imp Pints"]] categorySelectionBlock:^(UIView *categoryView, NSInteger categoryIndex) {
         [oldView setFont:[UIFont fontWithName:@"Raleway-Medium" size:16.0]];
         UILabel *selectedView = (UILabel *)categoryView;
+        // bold the selected item
         [selectedView setFont:[UIFont fontWithName:@"Raleway-Bold" size:17.0]];
         [startLabel setText:[NSString stringWithFormat:@"%@", selectedView.text]];
         oldView = (UILabel *)categoryView;
@@ -103,7 +105,7 @@ NSString *toStr;
     [self.view addSubview:self.sliderView];
     
     [self.sliderView2 setY:-60];
-    [self.sliderView2 moveY:screenHeight - 110 duration:0.5 complation:nil];
+    [self.sliderView2 moveY:myScreenHeight - 110 duration:0.5 complation:nil];
     [self.view addSubview:self.sliderView2];
     
 }
@@ -144,6 +146,7 @@ NSString *toStr;
 
 // ran when temperature stepper is clicked
 - (IBAction)stepperPress2:(id)sender{
+    // check to see if stepper should add, subtract, or reset
     if (stepVal >= myTempStepper.value) {
         if (self.circularSlider.value == 1) {
             isStepper = true;
@@ -171,12 +174,14 @@ NSString *toStr;
     
 }
 
+// highlight all the text when the editText box is clicked
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     [textField selectAll:self];
 }
 
 - (void)textFieldDidChange:(UITextField *)textField
 {
+    // format the text
     NSString *textFieldText = [textField.text stringByReplacingOccurrencesOfString:@"," withString:@""];
     myStepper.value = [textFieldText intValue];
     
