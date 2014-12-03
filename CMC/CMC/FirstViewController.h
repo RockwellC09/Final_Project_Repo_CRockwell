@@ -22,6 +22,7 @@
     IBOutlet UILabel *farLabel;
     IBOutlet UILabel *celLabel;
     IBOutlet UIButton *saveBtn;
+    IBOutlet UIImageView *helpImgView;
 }
 
 @property (unsafe_unretained, nonatomic) IBOutlet UICircularSlider *circularSlider;

@@ -5,22 +5,23 @@
 //  Created by Christopher Rockwell on 11/30/14.
 //  Copyright (c) 2014 Christopher Rockwell. All rights reserved.
 //
+// This object calculates the measurements conversions
 
 #import "Calculations.h"
 
 @implementation Calculations
 
-
-+ (NSString*)calc : (NSString *)from : (NSString *)to : (int)num{
+// thie method recieves the conversion unit and number and returns the result
++ (NSString*)calc : (NSString *)from : (NSString *)to : (float)num{
     
 #pragma US Teaspoons Selection
     
     if ([from isEqualToString:@"US Teaspoons"]) {
         if ([to isEqualToString:@"US Teaspoons"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Tablespoons"]) {
             float results = num * 0.333333;
@@ -173,10 +174,10 @@
     
     if ([from isEqualToString:@"US Tablespoons"]) {
         if ([to isEqualToString:@"US Tablespoons"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 3;
@@ -329,10 +330,10 @@
     
     if ([from isEqualToString:@"Cups"]) {
         if ([to isEqualToString:@"Cups"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 48;
@@ -485,10 +486,10 @@
     
     if ([from isEqualToString:@"US Ounces"]) {
         if ([to isEqualToString:@"US Ounces"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 6;
@@ -641,10 +642,10 @@
     
     if ([from isEqualToString:@"US Gallons"]) {
         if ([to isEqualToString:@"US Gallons"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 768;
@@ -797,10 +798,10 @@
     
     if ([from isEqualToString:@"US Quarts"]) {
         if ([to isEqualToString:@"US Quarts"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 192;
@@ -953,10 +954,10 @@
     
     if ([from isEqualToString:@"US Pints"]) {
         if ([to isEqualToString:@"US Pints"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 96;
@@ -1109,10 +1110,10 @@
     
     if ([from isEqualToString:@"Kilograms"]) {
         if ([to isEqualToString:@"Kilograms"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 202.88413535328;
@@ -1265,10 +1266,10 @@
     
     if ([from isEqualToString:@"Grams"]) {
         if ([to isEqualToString:@"Grams"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 0.20304;
@@ -1421,10 +1422,10 @@
     
     if ([from isEqualToString:@"Liters"]) {
         if ([to isEqualToString:@"Liters"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 202.88413535328;
@@ -1577,10 +1578,10 @@
     
     if ([from isEqualToString:@"Milliliters"]) {
         if ([to isEqualToString:@"Milliliters"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 0.20304;
@@ -1733,10 +1734,10 @@
     
     if ([from isEqualToString:@"Imp Teaspoons"]) {
         if ([to isEqualToString:@"Imp Teaspoons"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 1.20095;
@@ -1889,10 +1890,10 @@
     
     if ([from isEqualToString:@"Imp Tablespoons"]) {
         if ([to isEqualToString:@"Imp Tablespoons"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 3.60285;
@@ -2045,10 +2046,10 @@
     
     if ([from isEqualToString:@"Imp Ounces"]) {
         if ([to isEqualToString:@"Imp Ounces"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 5.76456;
@@ -2201,10 +2202,10 @@
     
     if ([from isEqualToString:@"Imp Gallons"]) {
         if ([to isEqualToString:@"Imp Gallons"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 922.33;
@@ -2357,10 +2358,10 @@
     
     if ([from isEqualToString:@"Imp Quarts"]) {
         if ([to isEqualToString:@"Imp Quarts"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 230.582;
@@ -2513,10 +2514,10 @@
     
     if ([from isEqualToString:@"Imp Pints"]) {
         if ([to isEqualToString:@"Imp Pints"]) {
-            int results = num * 1;
+            float results = num * 1;
             NSNumberFormatter *numFormatter = [[NSNumberFormatter alloc] init];
             [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:results ]];
+            NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithFloat:results ]];
             return formattedOutput;
         } if ([to isEqualToString:@"US Teaspoons"]) {
             float results = num * 115.291;

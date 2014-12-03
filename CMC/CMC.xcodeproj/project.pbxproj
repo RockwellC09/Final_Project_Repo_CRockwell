@@ -10,6 +10,11 @@
 		2E8BCBC11A1EC9CA00D00598 /* Main4.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8BCBC01A1EC9CA00D00598 /* Main4.storyboard */; };
 		2EB418421A2C11C700F48704 /* Calculations.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EB418411A2C11C700F48704 /* Calculations.m */; };
 		2EB418441A2E723900F48704 /* Main3.5.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EB418431A2E723900F48704 /* Main3.5.storyboard */; };
+		2EB418461A2EA4CB00F48704 /* Main6.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EB418451A2EA4CB00F48704 /* Main6.storyboard */; };
+		2EB4184B1A2EADFE00F48704 /* cmc_help4.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EB418471A2EADFE00F48704 /* cmc_help4.png */; };
+		2EB4184C1A2EADFE00F48704 /* cmc_help5.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EB418481A2EADFE00F48704 /* cmc_help5.png */; };
+		2EB4184D1A2EADFE00F48704 /* cmc_help6.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EB418491A2EADFE00F48704 /* cmc_help6.png */; };
+		2EB4184E1A2EADFE00F48704 /* cmc_help6p.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EB4184A1A2EADFE00F48704 /* cmc_help6p.png */; };
 		2EF3954B1A1A5A0D00272FF2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF3954A1A1A5A0D00272FF2 /* main.m */; };
 		2EF3954E1A1A5A0D00272FF2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF3954D1A1A5A0D00272FF2 /* AppDelegate.m */; };
 		2EF395511A1A5A0D00272FF2 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF395501A1A5A0D00272FF2 /* FirstViewController.m */; };
@@ -49,6 +54,11 @@
 		2EB418401A2C11C700F48704 /* Calculations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Calculations.h; sourceTree = "<group>"; };
 		2EB418411A2C11C700F48704 /* Calculations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Calculations.m; sourceTree = "<group>"; };
 		2EB418431A2E723900F48704 /* Main3.5.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main3.5.storyboard; sourceTree = "<group>"; };
+		2EB418451A2EA4CB00F48704 /* Main6.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main6.storyboard; sourceTree = "<group>"; };
+		2EB418471A2EADFE00F48704 /* cmc_help4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cmc_help4.png; sourceTree = "<group>"; };
+		2EB418481A2EADFE00F48704 /* cmc_help5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cmc_help5.png; sourceTree = "<group>"; };
+		2EB418491A2EADFE00F48704 /* cmc_help6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cmc_help6.png; sourceTree = "<group>"; };
+		2EB4184A1A2EADFE00F48704 /* cmc_help6p.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cmc_help6p.png; sourceTree = "<group>"; };
 		2EF395451A1A5A0D00272FF2 /* CMC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CMC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EF395491A1A5A0D00272FF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2EF3954A1A1A5A0D00272FF2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -139,6 +149,7 @@
 				2EF395551A1A5A0D00272FF2 /* Main.storyboard */,
 				2EB418431A2E723900F48704 /* Main3.5.storyboard */,
 				2E8BCBC01A1EC9CA00D00598 /* Main4.storyboard */,
+				2EB418451A2EA4CB00F48704 /* Main6.storyboard */,
 				2EF395581A1A5A0D00272FF2 /* Images.xcassets */,
 				2EF3955A1A1A5A0D00272FF2 /* LaunchScreen.xib */,
 				2EF395481A1A5A0D00272FF2 /* Supporting Files */,
@@ -208,6 +219,10 @@
 		2EF395891A1E6E7200272FF2 /* img */ = {
 			isa = PBXGroup;
 			children = (
+				2EB418471A2EADFE00F48704 /* cmc_help4.png */,
+				2EB418481A2EADFE00F48704 /* cmc_help5.png */,
+				2EB418491A2EADFE00F48704 /* cmc_help6.png */,
+				2EB4184A1A2EADFE00F48704 /* cmc_help6p.png */,
 				2EF3958E1A1E735800272FF2 /* save.png */,
 				2EF3958F1A1E735800272FF2 /* sub.png */,
 				2EF3958C1A1E718F00272FF2 /* calculator.png */,
@@ -295,12 +310,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EB4184E1A2EADFE00F48704 /* cmc_help6p.png in Resources */,
 				2EF395911A1E735800272FF2 /* sub.png in Resources */,
 				2EF395571A1A5A0D00272FF2 /* Main.storyboard in Resources */,
 				2EF395821A1A750100272FF2 /* Raleway-Medium.ttf in Resources */,
+				2EB4184B1A2EADFE00F48704 /* cmc_help4.png in Resources */,
 				2EF395A31A1E9C3700272FF2 /* saves.txt in Resources */,
+				2EB4184C1A2EADFE00F48704 /* cmc_help5.png in Resources */,
 				2EB418441A2E723900F48704 /* Main3.5.storyboard in Resources */,
 				2EF3957E1A1A720100272FF2 /* Raleway-Bold.ttf in Resources */,
+				2EB418461A2EA4CB00F48704 /* Main6.storyboard in Resources */,
 				2EF3958D1A1E718F00272FF2 /* calculator.png in Resources */,
 				2EF395781A1A6DBA00272FF2 /* PT_Sans-Web-Bold.ttf in Resources */,
 				2EF395801A1A720E00272FF2 /* Raleway-Regular.ttf in Resources */,
@@ -309,6 +328,7 @@
 				2EF3959E1A1E827B00272FF2 /* substitutions.txt in Resources */,
 				2EF395871A1C5B1000272FF2 /* LICENSE in Resources */,
 				2EF3955C1A1A5A0D00272FF2 /* LaunchScreen.xib in Resources */,
+				2EB4184D1A2EADFE00F48704 /* cmc_help6.png in Resources */,
 				2EF395591A1A5A0D00272FF2 /* Images.xcassets in Resources */,
 				2E8BCBC11A1EC9CA00D00598 /* Main4.storyboard in Resources */,
 			);

@@ -10,5 +10,5 @@
 
 @interface Calculations : NSObject
 
-+ (NSString*)calc : (NSString *)from : (NSString *)to : (int)num;
++ (NSString*)calc : (NSString *)from : (NSString *)to : (float)num;
 @end

@@ -60,16 +60,73 @@ NSString *toStr;
     CGFloat myScreenHeight = myScreenRect.size.height;
     
     // add done button for keyboard
-    UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
-    [keyboardDoneButtonView sizeToFit];
+    UIToolbar* keyboardDoneBtn = [[UIToolbar alloc] init];
+    [keyboardDoneBtn sizeToFit];
     UIBarButtonItem *flexibleSpace =  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 
     UIBarButtonItem* doneBtn = [[UIBarButtonItem alloc] initWithTitle:@"Done"
                                                                    style:UIBarButtonItemStyleBordered target:self
                                                                   action:@selector(doneBtnClicked:)];
-    [doneBtn setTintColor:[UIColor colorWithRed:0.267 green:0.267 blue:0.267 alpha:1] /*#444444*/];
-    [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:flexibleSpace, doneBtn, nil]];
-    valField.inputAccessoryView = keyboardDoneButtonView;
+    // add fraction buttons to keyboard
+    
+    UIBarButtonItem* frac1 = [[UIBarButtonItem alloc] initWithTitle:@"1/8"
+                                                                style:UIBarButtonItemStyleBordered target:self
+                                                               action:@selector(frac1BtnClicked:)];
+    UIBarButtonItem* frac2 = [[UIBarButtonItem alloc] initWithTitle:@"1/4"
+                                                              style:UIBarButtonItemStyleBordered target:self
+                                                             action:@selector(frac2BtnClicked:)];
+    UIBarButtonItem* frac3 = [[UIBarButtonItem alloc] initWithTitle:@"1/2"
+                                                              style:UIBarButtonItemStyleBordered target:self
+                                                             action:@selector(frac3BtnClicked:)];
+    UIBarButtonItem* noFrac = [[UIBarButtonItem alloc] initWithTitle:@"--"
+                                                              style:UIBarButtonItemStyleBordered target:self
+                                                             action:@selector(noFracBtnClicked:)];
+    UIBarButtonItem* frac4 = [[UIBarButtonItem alloc] initWithTitle:@"3/4"
+                                                              style:UIBarButtonItemStyleBordered target:self
+                                                             action:@selector(frac4BtnClicked:)];
+    UIBarButtonItem* frac5 = [[UIBarButtonItem alloc] initWithTitle:@"1/3"
+                                                              style:UIBarButtonItemStyleBordered target:self
+                                                             action:@selector(frac5BtnClicked:)];
+    UIBarButtonItem* frac6 = [[UIBarButtonItem alloc] initWithTitle:@"2/3"
+                                                              style:UIBarButtonItemStyleBordered target:self
+                                                             action:@selector(frac6BtnClicked:)];
+    
+    // set tab bar items color and font
+    [doneBtn setTitleTextAttributes:@{
+                                         NSFontAttributeName: [UIFont fontWithName:@"Raleway-Bold" size:16.0],
+                                         NSForegroundColorAttributeName: [UIColor colorWithRed:0.82 green:0.125 blue:0.157 alpha:1] /*#d12028*/
+                                         } forState:UIControlStateNormal];
+    [frac1 setTitleTextAttributes:@{
+                                      NSFontAttributeName: [UIFont fontWithName:@"Raleway-Medium" size:16.0],
+                                      NSForegroundColorAttributeName: [UIColor grayColor]
+                                      } forState:UIControlStateNormal];
+    [frac2 setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Raleway-Medium" size:16.0],
+                                    NSForegroundColorAttributeName: [UIColor grayColor]
+                                    } forState:UIControlStateNormal];
+    [frac3 setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Raleway-Medium" size:16.0],
+                                    NSForegroundColorAttributeName: [UIColor grayColor]
+                                    } forState:UIControlStateNormal];
+    [noFrac setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Raleway-Medium" size:16.0],
+                                    NSForegroundColorAttributeName: [UIColor grayColor]
+                                    } forState:UIControlStateNormal];
+    [frac4 setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Raleway-Medium" size:16.0],
+                                    NSForegroundColorAttributeName: [UIColor grayColor]
+                                    } forState:UIControlStateNormal];
+    [frac5 setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Raleway-Medium" size:16.0],
+                                    NSForegroundColorAttributeName: [UIColor grayColor]
+                                    } forState:UIControlStateNormal];
+    [frac6 setTitleTextAttributes:@{
+                                    NSFontAttributeName: [UIFont fontWithName:@"Raleway-Medium" size:16.0],
+                                    NSForegroundColorAttributeName: [UIColor grayColor]
+                                    } forState:UIControlStateNormal];
+    
+    [keyboardDoneBtn setItems:[NSArray arrayWithObjects:flexibleSpace, frac1, flexibleSpace, frac2, flexibleSpace, frac3, flexibleSpace, noFrac, flexibleSpace, frac4, flexibleSpace, frac5, flexibleSpace, frac6, flexibleSpace, doneBtn, flexibleSpace, nil]];
+    valField.inputAccessoryView = keyboardDoneBtn;
     
     // setup bottom slider
     self.sliderView2 = [[CategorySliderView alloc] initWithSliderHeight:60 andCategoryViews:@[[self labelWithText2:@"US Teaspoons"], [self labelWithText2:@"US Tablespoons"], [self labelWithText2:@"Cups"], [self labelWithText2:@"US Ounces"], [self labelWithText2:@"US Gallons"], [self labelWithText2:@"US Quarts"], [self labelWithText2:@"US Pints"], [self labelWithText2:@"Kilograms"], [self labelWithText2:@"Grams"], [self labelWithText2:@"Liters"], [self labelWithText2:@"Milliliters"], [self labelWithText2:@"Imp Teaspoons"], [self labelWithText2:@"Imp Tablespoons"], [self labelWithText2:@"Imp Ounces"], [self labelWithText2:@"Imp Gallons"] ,[self labelWithText2:@"Imp Quarts"], [self labelWithText2:@"Imp Pints"]] categorySelectionBlock:^(UIView *categoryView, NSInteger categoryIndex) {
@@ -83,7 +140,7 @@ NSString *toStr;
         toStr = [NSString stringWithFormat:@"%@", selectedView.text];
         NSString *valStrWithoutCommas = [valField.text
                                          stringByReplacingOccurrencesOfString:@"," withString:@""];
-        resultsLabel.text = [Calculations calc:fromStr :toStr :[valStrWithoutCommas intValue]];
+        resultsLabel.text = [Calculations calc:fromStr :toStr :[valStrWithoutCommas floatValue]];
     }];
     
     // setup top slider
@@ -97,7 +154,7 @@ NSString *toStr;
         fromStr = [NSString stringWithFormat:@"%@", selectedView.text];
         NSString *valStrWithoutCommas = [valField.text
                                       stringByReplacingOccurrencesOfString:@"," withString:@""];
-        resultsLabel.text = [Calculations calc:fromStr :toStr :[valStrWithoutCommas intValue]];
+        resultsLabel.text = [Calculations calc:fromStr :toStr :[valStrWithoutCommas floatValue]];
     }];
     [self.sliderView setY:-60];
     [self.sliderView moveY:60 duration:0.5 complation:nil];
@@ -134,7 +191,7 @@ NSString *toStr;
     [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:[textFieldText intValue]]];
     valField.text = formattedOutput;
-    resultsLabel.text = [Calculations calc:fromStr :toStr :[textFieldText intValue]];
+    resultsLabel.text = [Calculations calc:fromStr :toStr :[textFieldText floatValue]];
 }
 
 // ran when temperature stepper is clicked
@@ -177,11 +234,11 @@ NSString *toStr;
     [numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     NSString *formattedOutput = [numFormatter stringFromNumber:[NSNumber numberWithInt:[textFieldText intValue]]];
     valField.text = formattedOutput;
-    resultsLabel.text = [Calculations calc:fromStr :toStr :[textFieldText intValue]];
+    resultsLabel.text = [Calculations calc:fromStr :toStr :[textFieldText floatValue]];
 }
 
+// format test for top slider
 - (UILabel *)labelWithText:(NSString *)text {
-    //float w = [text sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]}].width;
     
     UILabel *myLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 140, 60)];
     [myLabel setTextColor:[UIColor whiteColor]];
@@ -197,8 +254,8 @@ NSString *toStr;
     return myLabel;
 }
 
+// format test for bottom slider
 - (UILabel *)labelWithText2:(NSString *)text {
-    //float w = [text sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]}].width;
     
     UILabel *myLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 140, 60)];
     [myLabel2 setTextColor:[UIColor whiteColor]];
@@ -217,6 +274,54 @@ NSString *toStr;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+# pragma fraction button methods
+
+- (void) frac1BtnClicked:(id)sender {
+    int wholeNum = floor([valField.text doubleValue]);
+    float decNum = wholeNum + .125;
+    valField.text = [NSString stringWithFormat:@"%.03f", decNum];
+    resultsLabel.text = [Calculations calc:fromStr :toStr :[valField.text floatValue]];
+}
+
+- (void) frac2BtnClicked:(id)sender {
+    int wholeNum = floor([valField.text doubleValue]);
+    float decNum = wholeNum + .25;
+    valField.text = [NSString stringWithFormat:@"%.02f", decNum];
+    resultsLabel.text = [Calculations calc:fromStr :toStr :[valField.text floatValue]];
+}
+- (void) frac3BtnClicked:(id)sender {
+    int wholeNum = floor([valField.text doubleValue]);
+    float decNum = wholeNum + .50;
+    valField.text = [NSString stringWithFormat:@"%.02f", decNum];
+    resultsLabel.text = [Calculations calc:fromStr :toStr :[valField.text floatValue]];
+}
+
+- (void) noFracBtnClicked:(id)sender {
+    int wholeNum = floor([valField.text doubleValue]);
+    valField.text = [NSString stringWithFormat:@"%i", wholeNum];
+    resultsLabel.text = [Calculations calc:fromStr :toStr :[valField.text floatValue]];
+}
+
+- (void) frac4BtnClicked:(id)sender {
+    int wholeNum = floor([valField.text doubleValue]);
+    float decNum = wholeNum + .75;
+    valField.text = [NSString stringWithFormat:@"%.02f", decNum];
+    resultsLabel.text = [Calculations calc:fromStr :toStr :[valField.text floatValue]];
+}
+- (void) frac5BtnClicked:(id)sender {
+    int wholeNum = floor([valField.text doubleValue]);
+    float decNum = wholeNum + .33;
+    valField.text = [NSString stringWithFormat:@"%.02f", decNum];
+    resultsLabel.text = [Calculations calc:fromStr :toStr :[valField.text floatValue]];
+}
+
+- (void) frac6BtnClicked:(id)sender {
+    int wholeNum = floor([valField.text doubleValue]);
+    float decNum = wholeNum + .66;
+    valField.text = [NSString stringWithFormat:@"%.02f", decNum];
+    resultsLabel.text = [Calculations calc:fromStr :toStr :[valField.text floatValue]];
 }
 
 @end

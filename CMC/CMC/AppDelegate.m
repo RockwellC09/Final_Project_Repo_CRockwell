@@ -40,11 +40,21 @@
         
         self.window.rootViewController = iPhone5View;
         [self.window makeKeyAndVisible];
-    } else {
+    } else if ([[UIScreen mainScreen] bounds].size.height == 667) {
         //iPhone 6
         self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
         
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        FirstViewController *iPhone5View = [storyBoard instantiateViewControllerWithIdentifier:@"View"];
+        
+        self.window.rootViewController = iPhone5View;
+        [self.window makeKeyAndVisible];
+    } else {
+        //iPhone 6 Plus
+        self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+        
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main6" bundle:nil];
         
         FirstViewController *iPhone5View = [storyBoard instantiateViewControllerWithIdentifier:@"View"];
         
