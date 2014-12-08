@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ThirdViewController : UIViewController  <UITableViewDataSource, UITableViewDelegate>
+@interface ThirdViewController : UIViewController  <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
+{
+    IBOutlet UITableView *myTableView;
+}
 
+- (IBAction)onClick:(id)sender;
 @end

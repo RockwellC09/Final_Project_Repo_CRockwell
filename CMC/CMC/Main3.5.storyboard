@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AeM-eI-nrJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="AeM-eI-nrJ">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="PT_Sans-Web-Bold.ttf">
@@ -47,7 +47,7 @@
                             </navigationBar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cooking Measurements Converter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EI1-CT-BBy">
                                 <rect key="frame" x="0.0" y="25" width="320" height="33"/>
-                                <fontDescription key="fontDescription" name="PTSans-Bold" family="PT Sans" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="PTSans-Bold" family="PT Sans" pointSize="17"/>
                                 <color key="textColor" red="0.81960784310000001" green="0.12549019610000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -59,6 +59,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="onSaveClick:" destination="C1s-62-oce" eventType="touchUpInside" id="ecj-mt-WCB"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bFx-ng-XA4">
                                 <rect key="frame" x="205" y="170" width="6" height="50"/>
@@ -110,7 +113,7 @@
                                     <action selector="stepperPress:" destination="C1s-62-oce" eventType="valueChanged" id="EQC-f2-oHb"/>
                                 </connections>
                             </stepper>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="US Tablespoons" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hLe-Ir-aOu">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="US Teaspoons" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hLe-Ir-aOu">
                                 <rect key="frame" x="84" y="117" width="128" height="50"/>
                                 <fontDescription key="fontDescription" name="Raleway-Medium" family="Raleway" pointSize="14"/>
                                 <color key="textColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -140,6 +143,29 @@
                                     </stepper>
                                 </subviews>
                             </view>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cmc_help4.png" translatesAutoresizingMaskIntoConstraints="NO" id="wa6-Hq-qAf">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j3H-3p-vxc">
+                                <rect key="frame" x="287" y="31" width="22" height="22"/>
+                                <color key="tintColor" red="0.81960784310000001" green="0.12549019610000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onClick:" destination="C1s-62-oce" eventType="touchUpInside" id="ZUL-i0-Gbm"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Po1-4B-zdg">
+                                <rect key="frame" x="117" y="345" width="86" height="40"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onTutClick:" destination="C1s-62-oce" eventType="touchUpInside" id="Vds-OX-itJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -149,6 +175,7 @@
                         <outlet property="celLabel" destination="bY5-An-hih" id="Lx4-yU-AST"/>
                         <outlet property="circularSlider" destination="Qmb-9x-acI" id="8ps-bC-Wkm"/>
                         <outlet property="farLabel" destination="7Vy-dX-OMh" id="tWg-u6-AzT"/>
+                        <outlet property="helpImgView" destination="wa6-Hq-qAf" id="PWZ-wY-9x9"/>
                         <outlet property="myStepper" destination="hy8-zH-VqZ" id="GtR-NA-dqY"/>
                         <outlet property="myTempStepper" destination="Z4y-4Q-YN9" id="sNP-QL-JJb"/>
                         <outlet property="resultsLabel" destination="lhV-t1-FN6" id="uAg-YD-kC9"/>
@@ -156,12 +183,13 @@
                         <outlet property="saveBtn" destination="JdV-2M-aPe" id="dLa-c1-jOU"/>
                         <outlet property="startLabel" destination="hLe-Ir-aOu" id="2Tf-Wa-TL2"/>
                         <outlet property="titleLabel" destination="EI1-CT-BBy" id="8bL-g8-JJa"/>
+                        <outlet property="tutBtn" destination="Po1-4B-zdg" id="Ssd-5b-u5N"/>
                         <outlet property="valField" destination="42Q-t1-ty5" id="oZC-w2-oMB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qlj-Hj-ylq" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="749" y="-321"/>
+            <point key="canvasLocation" x="739" y="-350"/>
         </scene>
         <!--Subtitutions-->
         <scene sceneID="dTM-Gp-OG7">
@@ -185,15 +213,17 @@
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="qx4-aH-8dQ">
                                 <rect key="frame" x="19" y="73" width="283" height="29"/>
                                 <segments>
-                                    <segment title="US" width="93.666666666666671"/>
+                                    <segment title="US / Imperial" width="141"/>
                                     <segment title="Metric"/>
-                                    <segment title="Imperial" width="94"/>
                                 </segments>
                                 <color key="tintColor" red="0.81960784310000001" green="0.12549019610000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="onChange:" destination="peq-IT-XFQ" eventType="valueChanged" id="oeU-LV-xd4"/>
+                                </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cooking Measurements Converter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDw-eV-YKC">
                                 <rect key="frame" x="0.0" y="25" width="320" height="33"/>
-                                <fontDescription key="fontDescription" name="PTSans-Bold" family="PT Sans" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="PTSans-Bold" family="PT Sans" pointSize="17"/>
                                 <color key="textColor" red="0.81960784310000001" green="0.12549019610000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -220,6 +250,9 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Subtitutions" image="sub.png" id="TEi-xd-EJX"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="myTableView" destination="PtV-yw-dYc" id="WXV-Ei-08s"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dLn-3h-ALQ" sceneMemberID="firstResponder"/>
             </objects>
@@ -246,12 +279,12 @@
                             </navigationBar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cooking Measurements Converter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BqN-LG-LG1">
                                 <rect key="frame" x="0.0" y="25" width="320" height="33"/>
-                                <fontDescription key="fontDescription" name="PTSans-Bold" family="PT Sans" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="PTSans-Bold" family="PT Sans" pointSize="17"/>
                                 <color key="textColor" red="0.81960784310000001" green="0.12549019610000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3jh-w0-vvT">
-                                <rect key="frame" x="0.0" y="66" width="320" height="365"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                                 <color key="backgroundColor" red="0.81960784310000001" green="0.12549019610000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="separatorColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -268,11 +301,24 @@
                                     <outlet property="delegate" destination="o9P-by-45c" id="yGu-ty-yUo"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qud-GK-0iA">
+                                <rect key="frame" x="287" y="31" width="22" height="22"/>
+                                <color key="tintColor" red="0.81960784310000001" green="0.12549019610000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onClick:" destination="o9P-by-45c" eventType="touchUpInside" id="0aF-gd-0OR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Saves" image="save.png" id="TWQ-4e-dbG"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="myTableView" destination="3jh-w0-vvT" id="V0z-ib-knE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pd9-Up-8xQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -302,6 +348,7 @@
     </scenes>
     <resources>
         <image name="calculator.png" width="30" height="30"/>
+        <image name="cmc_help4.png" width="640" height="960"/>
         <image name="save.png" width="30" height="30"/>
         <image name="sub.png" width="30" height="30"/>
     </resources>

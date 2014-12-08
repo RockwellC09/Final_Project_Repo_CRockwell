@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface SecondViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
-
-
+{
+    IBOutlet UITableView *myTableView;
+}
+- (IBAction)onChange:(id)sender;
 @end
 

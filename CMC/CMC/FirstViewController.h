@@ -23,9 +23,13 @@
     IBOutlet UILabel *celLabel;
     IBOutlet UIButton *saveBtn;
     IBOutlet UIImageView *helpImgView;
+    IBOutlet UIButton *tutBtn;
 }
 
 @property (unsafe_unretained, nonatomic) IBOutlet UICircularSlider *circularSlider;
+- (IBAction)onSaveClick:(id)sender;
+- (IBAction)onClick:(id)sender;
+- (IBAction)onTutClick:(id)sender;
 
 @end
 

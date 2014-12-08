@@ -19,13 +19,15 @@ NSArray *subs;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    // read substitutions data from txt file
-    NSString* path = [[NSBundle mainBundle] pathForResource:@"substitutions"
+    // read US and Imperial substitutions data from txt file
+    NSString* path = [[NSBundle mainBundle] pathForResource:@"us_imp_substitutions"
                                                      ofType:@"txt"];
    subs = [[NSString stringWithContentsOfFile:path
                                                encoding:NSUTF8StringEncoding
                                                   error:nil]
            componentsSeparatedByString:@"\n"];
+    
+    //metric_substitutions
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,7 +35,31 @@ NSArray *subs;
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)onChange:(id)sender {
+    UISegmentedControl * subSegControl = (UISegmentedControl *)sender;
+    if (subSegControl.selectedSegmentIndex == 0) {
+        // read US and Imperial substitutions data from txt file
+        NSString* path = [[NSBundle mainBundle] pathForResource:@"us_imp_substitutions"
+                                                         ofType:@"txt"];
+        subs = [[NSString stringWithContentsOfFile:path
+                                          encoding:NSUTF8StringEncoding
+                                             error:nil]
+                componentsSeparatedByString:@"\n"];
+        [myTableView reloadData];
+    } else {
+        // read Metric substitutions data from txt file
+        NSString* path = [[NSBundle mainBundle] pathForResource:@"metric_substitutions"
+                                                         ofType:@"txt"];
+        subs = [[NSString stringWithContentsOfFile:path
+                                          encoding:NSUTF8StringEncoding
+                                             error:nil]
+                componentsSeparatedByString:@"\n"];
+        [myTableView reloadData];
+    }
+}
 
+
+# pragma table view for substitutions data
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return subs.count;

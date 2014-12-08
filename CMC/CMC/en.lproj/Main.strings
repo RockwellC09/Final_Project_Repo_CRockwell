@@ -1,0 +1,45 @@
+
+/* Class = "IBUIButton"; normalTitle = "Save"; ObjectID = "8av-qO-aGf"; */
+"8av-qO-aGf.normalTitle" = "Save";
+
+/* Class = "IBUILabel"; text = "-17° C"; ObjectID = "E2B-1y-6Kn"; */
+"E2B-1y-6Kn.text" = "-17° C";
+
+/* Class = "IBUILabel"; text = "1"; ObjectID = "Fxd-AP-zYi"; */
+"Fxd-AP-zYi.text" = "1";
+
+/* Class = "IBUILabel"; text = "0° F"; ObjectID = "JH1-xJ-nRi"; */
+"JH1-xJ-nRi.text" = "0° F";
+
+/* Class = "IBUILabel"; text = "US Teaspoons"; ObjectID = "KGi-1x-Iqe"; */
+"KGi-1x-Iqe.text" = "US Teaspoons";
+
+/* Class = "IBUILabel"; text = "Cooking Measurements Converter"; ObjectID = "Ne1-xK-A5a"; */
+"Ne1-xK-A5a.text" = "Cooking Measurements Converter";
+
+/* Class = "IBUISegmentedControl"; QMN-8a-HBG.segmentTitles[0] = "US / Imperial "; ObjectID = "QMN-8a-HBG"; */
+"QMN-8a-HBG.segmentTitles[0]" = "US / Imperial ";
+
+/* Class = "IBUISegmentedControl"; QMN-8a-HBG.segmentTitles[1] = "Metric"; ObjectID = "QMN-8a-HBG"; */
+"QMN-8a-HBG.segmentTitles[1]" = "Metric";
+
+/* Class = "IBUITextField"; text = "1"; ObjectID = "SoH-6h-KF4"; */
+"SoH-6h-KF4.text" = "1";
+
+/* Class = "IBUILabel"; text = "US Teaspoons"; ObjectID = "ZRe-ye-tUb"; */
+"ZRe-ye-tUb.text" = "US Teaspoons";
+
+/* Class = "IBUITabBarItem"; title = "Converter"; ObjectID = "acW-dT-cKf"; */
+"acW-dT-cKf.title" = "Converter";
+
+/* Class = "IBUITabBarItem"; title = "Subtitutions"; ObjectID = "cPa-gy-q4n"; */
+"cPa-gy-q4n.title" = "Subtitutions";
+
+/* Class = "IBUILabel"; text = "Cooking Measurements Converter"; ObjectID = "g4M-vT-khe"; */
+"g4M-vT-khe.text" = "Cooking Measurements Converter";
+
+/* Class = "IBUITabBarItem"; title = "Saves"; ObjectID = "tyt-gq-5x7"; */
+"tyt-gq-5x7.title" = "Saves";
+
+/* Class = "IBUILabel"; text = "Cooking Measurements Converter"; ObjectID = "x3d-YI-HEu"; */
+"x3d-YI-HEu.text" = "Cooking Measurements Converter";

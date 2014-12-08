@@ -14,11 +14,15 @@
 @end
 
 @implementation AppDelegate
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize managedObjectModel = _managedObjectModel;
+@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    NSLog(@"%f", [[UIScreen mainScreen] bounds].size.height);
     // check the screen size and load the proper storyboard
     if ([[UIScreen mainScreen] bounds].size.height == 480) {
         //iPhone 4
@@ -26,9 +30,9 @@
         
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main3.5" bundle:nil];
         
-        FirstViewController *iPhone5View = [storyBoard instantiateViewControllerWithIdentifier:@"View"];
+        FirstViewController *iPhone4View = [storyBoard instantiateViewControllerWithIdentifier:@"View"];
         
-        self.window.rootViewController = iPhone5View;
+        self.window.rootViewController = iPhone4View;
         [self.window makeKeyAndVisible];
     } else if ([[UIScreen mainScreen] bounds].size.height == 568) {
         //iPhone 5
@@ -44,21 +48,21 @@
         //iPhone 6
         self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
         
-        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main6" bundle:nil];
         
-        FirstViewController *iPhone5View = [storyBoard instantiateViewControllerWithIdentifier:@"View"];
+        FirstViewController *iPhone6View = [storyBoard instantiateViewControllerWithIdentifier:@"View"];
         
-        self.window.rootViewController = iPhone5View;
+        self.window.rootViewController = iPhone6View;
         [self.window makeKeyAndVisible];
     } else {
         //iPhone 6 Plus
         self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
         
-        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main6" bundle:nil];
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main6p" bundle:nil];
         
-        FirstViewController *iPhone5View = [storyBoard instantiateViewControllerWithIdentifier:@"View"];
+        FirstViewController *iPhone6pView = [storyBoard instantiateViewControllerWithIdentifier:@"View"];
         
-        self.window.rootViewController = iPhone5View;
+        self.window.rootViewController = iPhone6pView;
         [self.window makeKeyAndVisible];
     }
     
@@ -86,5 +90,78 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+- (void)saveContext
+{
+    NSError *error = nil;
+    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
+    if (managedObjectContext != nil) {
+        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            NSLog(@"Error: %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }
+}
+
+#pragma mark - Core Data stack
+
+// Returns the managed object context for the application.
+// If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
+- (NSManagedObjectContext *)managedObjectContext
+{
+    if (_managedObjectContext != nil) {
+        return _managedObjectContext;
+    }
+    
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if (coordinator != nil) {
+        _managedObjectContext = [[NSManagedObjectContext alloc] init];
+        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+    }
+    return _managedObjectContext;
+}
+
+// Returns the managed object model for the application.
+// If the model doesn't already exist, it is created from the application's model.
+- (NSManagedObjectModel *)managedObjectModel
+{
+    if (_managedObjectModel != nil) {
+        return _managedObjectModel;
+    }
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Info" withExtension:@"momd"];
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    return _managedObjectModel;
+}
+
+// Returns the persistent store coordinator for the application.
+// If the coordinator doesn't already exist, it is created and the application's store added to it.
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
+{
+    if (_persistentStoreCoordinator != nil) {
+        return _persistentStoreCoordinator;
+    }
+    
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"CodeSample.sqlite"];
+    
+    NSError *error = nil;
+    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+        NSLog(@"Error: %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    return _persistentStoreCoordinator;
+}
+
+#pragma mark - Application's Documents directory
+
+// Returns the URL to the application's Documents directory.
+- (NSURL *)applicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
 
 @end

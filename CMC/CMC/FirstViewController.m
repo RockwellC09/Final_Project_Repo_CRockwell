@@ -8,10 +8,13 @@
 
 #import "FirstViewController.h"
 #import "CategorySliderView.h"
+#import <CoreData/CoreData.h>
 
 @interface FirstViewController ()
 @property (nonatomic, strong) CategorySliderView *sliderView;
 @property (nonatomic, strong) CategorySliderView *sliderView2;
+@property (strong) NSMutableArray *info;
+
 @end
 
 UILabel *oldView;
@@ -21,8 +24,18 @@ bool first2;
 NSInteger stepVal;
 NSString *fromStr;
 NSString *toStr;
+NSUbiquitousKeyValueStore *cloudStore;
+NSMutableArray *savedObjs;
 
 @implementation FirstViewController
+- (NSManagedObjectContext *)managedObjectContext {
+    NSManagedObjectContext *context = nil;
+    id delegate = [[UIApplication sharedApplication] delegate];
+    if ([delegate performSelector:@selector(managedObjectContext)]) {
+        context = [delegate managedObjectContext];
+    }
+    return context;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -53,6 +66,19 @@ NSString *toStr;
     saveBtn.layer.borderColor = [UIColor colorWithRed:0.82 green:0.125 blue:0.157 alpha:1] /*#d12028*/.CGColor;
     fromStr = @"US Teaspoons";
     toStr = @"US Teaspoons";
+    
+    // see if app has been launched to see if the tutorial should show
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"LaunchedBefore"])
+    {
+        // app already launched
+        
+    }
+    else
+    {
+        [helpImgView setHidden:false];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"LaunchedBefore"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     
     // get screen size
     CGRect myScreenRect = [[UIScreen mainScreen] bounds];
@@ -143,6 +169,16 @@ NSString *toStr;
         resultsLabel.text = [Calculations calc:fromStr :toStr :[valStrWithoutCommas floatValue]];
     }];
     
+    // Fetch the info from persistent data store
+    savedObjs = [[NSMutableArray alloc] init];
+    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Info"];
+    self.info = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    for (int i = 0; i < [self.info count]; i++) {
+        NSManagedObject *infoObj = [self.info objectAtIndex:i];
+        [savedObjs addObject:[infoObj valueForKey:@"conversions"]];
+    }
+    
     // setup top slider
     self.sliderView = [[CategorySliderView alloc] initWithSliderHeight:60 andCategoryViews:@[[self labelWithText:@"US Teaspoons"], [self labelWithText:@"US Tablespoons"], [self labelWithText:@"Cups"], [self labelWithText:@"US Ounces"], [self labelWithText:@"US Gallons"], [self labelWithText:@"US Quarts"], [self labelWithText:@"US Pints"], [self labelWithText:@"Kilograms"], [self labelWithText:@"Grams"], [self labelWithText:@"Liters"], [self labelWithText:@"Milliliters"], [self labelWithText:@"Imp Teaspoons"], [self labelWithText:@"Imp Tablespoons"], [self labelWithText:@"Imp Ounces"], [self labelWithText:@"Imp Gallons"] ,[self labelWithText:@"Imp Quarts"], [self labelWithText:@"Imp Pints"]] categorySelectionBlock:^(UIView *categoryView, NSInteger categoryIndex) {
         [oldView setFont:[UIFont fontWithName:@"Raleway-Medium" size:16.0]];
@@ -157,12 +193,19 @@ NSString *toStr;
         resultsLabel.text = [Calculations calc:fromStr :toStr :[valStrWithoutCommas floatValue]];
     }];
     [self.sliderView setY:-60];
-    [self.sliderView moveY:60 duration:0.5 complation:nil];
+    [self.sliderView moveY:64 duration:0.5 complation:nil];
     [self.view addSubview:self.sliderView];
+    [self.view sendSubviewToBack:self.sliderView];
     
     [self.sliderView2 setY:-60];
     [self.sliderView2 moveY:myScreenHeight - 110 duration:0.5 complation:nil];
     [self.view addSubview:self.sliderView2];
+    [self.view sendSubviewToBack:self.sliderView2];
+    
+    // setup iCloud
+    cloudStore = [NSUbiquitousKeyValueStore defaultStore];
+//    NSArray *result = [cloudStore arrayForKey:@"conversions"];
+//    NSLog(@"Answer: %@", result);
     
 }
 
@@ -242,6 +285,7 @@ NSString *toStr;
     
     UILabel *myLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 140, 60)];
     [myLabel setTextColor:[UIColor whiteColor]];
+    [myLabel setTextAlignment:NSTextAlignmentCenter];
     if (first) {
         [myLabel setFont:[UIFont fontWithName:@"Raleway-Bold" size:17.0]];
         oldView = (UILabel *)myLabel;
@@ -250,7 +294,6 @@ NSString *toStr;
         [myLabel setFont:[UIFont fontWithName:@"Raleway-Medium" size:16.0]];
     }
     [myLabel setText:text];
-    [myLabel setTextAlignment:NSTextAlignmentCenter];
     return myLabel;
 }
 
@@ -259,6 +302,7 @@ NSString *toStr;
     
     UILabel *myLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 140, 60)];
     [myLabel2 setTextColor:[UIColor whiteColor]];
+    [myLabel2 setTextAlignment:NSTextAlignmentCenter];
     if (first2) {
         [myLabel2 setFont:[UIFont fontWithName:@"Raleway-Bold" size:17.0]];
         oldView2 = (UILabel *)myLabel2;
@@ -267,13 +311,48 @@ NSString *toStr;
         [myLabel2 setFont:[UIFont fontWithName:@"Raleway-Medium" size:16.0]];
     }
     [myLabel2 setText:text];
-    [myLabel2 setTextAlignment:NSTextAlignmentCenter];
     return myLabel2;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+// runs when info button is clicked to show/hide the tutorial image
+- (IBAction)onClick:(id)sender {
+    if ([helpImgView isHidden]) {
+        [helpImgView setHidden:false];
+        [tutBtn setHidden:false];
+    } else {
+        [helpImgView setHidden:true];
+        [tutBtn setHidden:true];
+    }
+}
+
+// ran when tutorial Got It button is clicked to hide the tutorial
+- (IBAction)onTutClick:(id)sender {
+    [helpImgView setHidden:true];
+    [tutBtn setHidden:true];
+}
+
+// ran when save button clicked
+- (IBAction)onSaveClick:(id)sender {
+    NSManagedObjectContext *context = [self managedObjectContext];
+    
+    // Create a new managed object
+    NSManagedObject *newInfo = [NSEntityDescription insertNewObjectForEntityForName:@"Info" inManagedObjectContext:context];
+    [newInfo setValue:[NSString stringWithFormat:@"%@ %@ = %@ %@",valField.text, startLabel.text, resultsLabel.text, resultsNameLabel.text] forKey:@"conversions"];
+    NSError *error = nil;
+    // Save the object to persistent store
+    if (![context save:&error]) {
+        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+    }
+    
+    // save data to iCloud
+    [savedObjs addObject:[NSString stringWithFormat:@"%@ %@ = %@ %@",valField.text, startLabel.text, resultsLabel.text, resultsNameLabel.text]];
+    [cloudStore setArray: savedObjs forKey:@"conversions"];
+    [cloudStore synchronize];
 }
 
 # pragma fraction button methods

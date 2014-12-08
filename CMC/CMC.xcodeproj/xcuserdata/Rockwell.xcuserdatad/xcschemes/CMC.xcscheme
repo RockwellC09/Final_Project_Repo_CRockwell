@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2EF395441A1A5A0D00272FF2"
+               BlueprintIdentifier = "2E8D2F9E1A33D79000A6FD46"
                BuildableName = "CMC.app"
                BlueprintName = "CMC"
                ReferencedContainer = "container:CMC.xcodeproj">
@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2EF395601A1A5A0E00272FF2"
+               BlueprintIdentifier = "2E8D2FBA1A33D79100A6FD46"
                BuildableName = "CMCTests.xctest"
                BlueprintName = "CMCTests"
                ReferencedContainer = "container:CMC.xcodeproj">
@@ -46,7 +46,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2EF395601A1A5A0E00272FF2"
+               BlueprintIdentifier = "2E8D2FBA1A33D79100A6FD46"
                BuildableName = "CMCTests.xctest"
                BlueprintName = "CMCTests"
                ReferencedContainer = "container:CMC.xcodeproj">
@@ -56,7 +56,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2EF395441A1A5A0D00272FF2"
+            BlueprintIdentifier = "2E8D2F9E1A33D79000A6FD46"
             BuildableName = "CMC.app"
             BlueprintName = "CMC"
             ReferencedContainer = "container:CMC.xcodeproj">
@@ -75,7 +75,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2EF395441A1A5A0D00272FF2"
+            BlueprintIdentifier = "2E8D2F9E1A33D79000A6FD46"
             BuildableName = "CMC.app"
             BlueprintName = "CMC"
             ReferencedContainer = "container:CMC.xcodeproj">
@@ -93,7 +93,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2EF395441A1A5A0D00272FF2"
+            BlueprintIdentifier = "2E8D2F9E1A33D79000A6FD46"
             BuildableName = "CMC.app"
             BlueprintName = "CMC"
             ReferencedContainer = "container:CMC.xcodeproj">
