@@ -188,9 +188,6 @@
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <action selector="onClick:" destination="NyK-zD-hZO" eventType="touchUpInside" id="99I-Cv-ti6"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="uuG-rc-ZHx">
                                 <rect key="frame" x="125" y="497" width="123" height="58"/>
@@ -200,7 +197,8 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="stepperPress2:" destination="NyK-zD-hZO" eventType="touchUpInside" id="CzZ-MJ-za0"/>
+                                    <action selector="onClick:" destination="NyK-zD-hZO" eventType="touchUpInside" id="5UZ-j6-qoG"/>
+                                    <action selector="onTutClick:" destination="NyK-zD-hZO" eventType="touchUpInside" id="s6C-Q9-lfj"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6rh-e3-Uco">
