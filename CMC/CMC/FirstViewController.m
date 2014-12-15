@@ -453,6 +453,12 @@ NSArray *subs;
         [cloudStore setArray: savedObjs forKey:@"conversions"];
         [cloudStore synchronize];
     }
+    UIAlertView *saveAlert = [[UIAlertView alloc] initWithTitle:@"Data Saved"
+                                                          message:@"View saves in the saves tab"
+                                                         delegate:self
+                                                cancelButtonTitle:@"Ok"
+                                                otherButtonTitles: nil];
+    [saveAlert show];
 }
 
 # pragma fraction button methods
