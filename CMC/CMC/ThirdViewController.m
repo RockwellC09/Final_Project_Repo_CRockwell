@@ -25,6 +25,7 @@
 }
 NSMutableArray *saves;
 NSUbiquitousKeyValueStore *cloudStore;
+NSString *iCloudEnabled;
 
 - (void)viewDidLoad {
     
@@ -51,8 +52,17 @@ NSUbiquitousKeyValueStore *cloudStore;
     }
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [doneBtn setHidden:true];
+    [myTableView setEditing:NO animated:YES];
+}
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
+}
+
+- (UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleDelete;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -62,11 +72,29 @@ NSUbiquitousKeyValueStore *cloudStore;
         [self.managedObjectContext deleteObject:managedObject];
         [self.managedObjectContext save:nil];
         [saves removeObjectAtIndex:indexPath.row];
-        // save data to iCloud
-        [cloudStore setArray: saves forKey:@"conversions"];
-        [cloudStore synchronize];
+        
+        NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+        
+        // check to see if iCloud is enabled
+        if ([defaults objectForKey:@"iCloudEnabled"] != nil) {
+            iCloudEnabled = [NSString stringWithFormat:@"%@", [defaults objectForKey:@"iCloudEnabled"]];
+            if ([iCloudEnabled isEqualToString:@"YES"]) {
+                // save data to iCloud
+                [cloudStore setArray: saves forKey:@"conversions"];
+                [cloudStore synchronize];
+            }
+        } else {
+            // save data to iCloud by default
+            [cloudStore setArray: saves forKey:@"conversions"];
+            [cloudStore synchronize];
+        }
         [myTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [doneBtn setHidden:false];
+    [tableView setEditing:YES animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -91,17 +119,23 @@ NSUbiquitousKeyValueStore *cloudStore;
     return cell;
 }
 
-// display settings alert
+// display delete alert
 - (IBAction)onClick:(id)sender {
-    UIAlertView *settingsAlert = [[UIAlertView alloc] initWithTitle:@"Settings"
-                                                      message:@"*Swipe left to delete a single item*"
+    UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete All Saves"
+                                                      message:@"*Tap item or Swipe left to delete a single item*"
                                                      delegate:self
                                             cancelButtonTitle:@"Cancel"
-                                            otherButtonTitles:@"Delete All Saves", @"Restore from iCloud", nil];
-    [settingsAlert show];
+                                            otherButtonTitles:@"Delete All Saves", nil];
+    [deleteAlert show];
 }
 
-// determine settings selection
+// ran when check button is clicked to stop table view editing
+- (IBAction)onDoneClick:(id)sender {
+    [doneBtn setHidden:true];
+    [myTableView setEditing:NO animated:YES];
+}
+
+// determines alert selection
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 3) {
         if (buttonIndex == 0) {
@@ -115,11 +149,24 @@ NSUbiquitousKeyValueStore *cloudStore;
                 [self.managedObjectContext save:nil];
                 
                 if (i == savesCount - 1) {
-                    // save data to iCloud
-                    [saves removeAllObjects];
-                    [cloudStore setArray: saves forKey:@"conversions"];
-                    [cloudStore synchronize];
-                    [myTableView reloadData];
+                    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+                    if ([defaults objectForKey:@"iCloudEnabled"] != nil) {
+                        if ([iCloudEnabled isEqualToString:@"YES"]) {
+                            // remove all data from iCloud
+                            [saves removeAllObjects];
+                            [cloudStore setArray: saves forKey:@"conversions"];
+                            [cloudStore synchronize];
+                        } else {
+                            [saves removeAllObjects];
+                        }
+                        [myTableView reloadData];
+                    } else {
+                        // remove all data from iCloud by default
+                        [saves removeAllObjects];
+                        [cloudStore setArray: saves forKey:@"conversions"];
+                        [cloudStore synchronize];
+                        [myTableView reloadData];
+                    }
                 }
             }
         }
@@ -129,48 +176,15 @@ NSUbiquitousKeyValueStore *cloudStore;
         } else if (buttonIndex == 1) {
             // delete button clicked
             UIAlertView *deleteAlert = [[UIAlertView alloc] initWithTitle:@"Delete All Saves"
-                                                                  message:@"Are you sure? This cannot be undone."
+                                                                  message:@"Are you sure? This cannot be undone.\n Swipe left/ Tap item to delete single item from saves"
                                                                  delegate:self
                                                         cancelButtonTitle:@"No"
                                                         otherButtonTitles:@"Yes", nil];
             [deleteAlert setTag:3];
             [deleteAlert show];
             
-        } else {
-            // iCloud button clicked
-            cloudStore = [NSUbiquitousKeyValueStore defaultStore];
-            NSArray *result = [cloudStore arrayForKey:@"conversions"];
-            if (result != nil) {
-                [saves removeAllObjects];
-                [saves addObjectsFromArray:result];
-                // save data from iCloud to Core Data
-                for (int i = 0; i < saves.count; i++) {
-                    NSManagedObjectContext *context = [self managedObjectContext];
-                    NSManagedObject *newInfo = [NSEntityDescription insertNewObjectForEntityForName:@"Info" inManagedObjectContext:context];
-                    [newInfo setValue:[saves objectAtIndex:i] forKey:@"conversions"];
-                    NSError *error = nil;
-                    // Save the object to persistent store
-                    if (![context save:&error]) {
-                        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
-                    }
-                }
-                NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
-                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Info"];
-                self.info = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
-                [myTableView reloadData];
-                if (result.count == 0) {
-                    // no iCloud data
-                    UIAlertView *noDataAlert = [[UIAlertView alloc] initWithTitle:@"No iCloud Data"
-                                                                          message:@"Sorry there is no iCloud data available."
-                                                                         delegate:nil
-                                                                cancelButtonTitle:@"Ok"
-                                                                otherButtonTitles: nil];
-                    [noDataAlert show];
-                }
-            }
         }
     }
-    
 }
 
 /*

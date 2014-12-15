@@ -22,7 +22,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    //NSLog(@"%f", [[UIScreen mainScreen] bounds].size.height);
     // check the screen size and load the proper storyboard
     if ([[UIScreen mainScreen] bounds].size.height == 480) {
         //iPhone 4

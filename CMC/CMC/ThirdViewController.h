@@ -11,7 +11,9 @@
 @interface ThirdViewController : UIViewController  <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 {
     IBOutlet UITableView *myTableView;
+    IBOutlet UIButton *doneBtn;
 }
 
 - (IBAction)onClick:(id)sender;
+- (IBAction)onDoneClick:(id)sender;
 @end

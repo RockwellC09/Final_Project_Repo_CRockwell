@@ -26,6 +26,9 @@ NSString *fromStr;
 NSString *toStr;
 NSUbiquitousKeyValueStore *cloudStore;
 NSMutableArray *savedObjs;
+NSString *iCloudEnabled;
+NSMutableArray *saves;
+NSArray *subs;
 
 @implementation FirstViewController
 - (NSManagedObjectContext *)managedObjectContext {
@@ -78,6 +81,9 @@ NSMutableArray *savedObjs;
         [helpImgView setHidden:false];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"LaunchedBefore"];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        saves = [[NSMutableArray alloc] init];
+        subs = [[NSArray alloc] init];
+        [self loadTextFiles];
     }
     
     // get screen size
@@ -204,9 +210,56 @@ NSMutableArray *savedObjs;
     
     // setup iCloud
     cloudStore = [NSUbiquitousKeyValueStore defaultStore];
-//    NSArray *result = [cloudStore arrayForKey:@"conversions"];
-//    NSLog(@"Answer: %@", result);
+    //NSArray *result = [cloudStore arrayForKey:@"conversions"];
+    //NSLog(@"Answer: %@", result);
     
+}
+
+// load substitution data from text files
+- (void)loadTextFiles {
+    // read US and Imperial substitutions data from txt file
+    NSString* path = [[NSBundle mainBundle] pathForResource:@"us_imp_substitutions"
+                                                     ofType:@"txt"];
+    subs = [[NSString stringWithContentsOfFile:path
+                                      encoding:NSUTF8StringEncoding
+                                         error:nil]
+            componentsSeparatedByString:@"\n"];
+    // store data to core data
+    [saves removeAllObjects];
+    [saves addObjectsFromArray:subs];
+    // save data from text file to Core Data
+    for (int i = 0; i < saves.count; i++) {
+        NSManagedObjectContext *context = [self managedObjectContext];
+        NSManagedObject *newInfo = [NSEntityDescription insertNewObjectForEntityForName:@"Us_Imp" inManagedObjectContext:context];
+        [newInfo setValue:[saves objectAtIndex:i] forKey:@"us_imp_substitutions"];
+        NSError *error = nil;
+        // Save the object to persistent store
+        if (![context save:&error]) {
+            NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+        }
+    }
+    
+    // read Metric substitutions data from txt file
+    NSString* path2 = [[NSBundle mainBundle] pathForResource:@"metric_substitutions"
+                                                     ofType:@"txt"];
+    subs = [[NSString stringWithContentsOfFile:path2
+                                      encoding:NSUTF8StringEncoding
+                                         error:nil]
+            componentsSeparatedByString:@"\n"];
+    // store data to core data
+    [saves removeAllObjects];
+    [saves addObjectsFromArray:subs];
+    // save data from text file to Core Data
+    for (int i = 0; i < saves.count; i++) {
+        NSManagedObjectContext *context = [self managedObjectContext];
+        NSManagedObject *newInfo = [NSEntityDescription insertNewObjectForEntityForName:@"Metric" inManagedObjectContext:context];
+        [newInfo setValue:[saves objectAtIndex:i] forKey:@"metric_substitutions"];
+        NSError *error = nil;
+        // Save the object to persistent store
+        if (![context save:&error]) {
+            NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+        }
+    }
 }
 
 // ran when tempurature slider value is changed
@@ -283,7 +336,7 @@ NSMutableArray *savedObjs;
 // format test for top slider
 - (UILabel *)labelWithText:(NSString *)text {
     
-    UILabel *myLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 140, 60)];
+    UILabel *myLabel = [[UILabel alloc] init];
     [myLabel setTextColor:[UIColor whiteColor]];
     [myLabel setTextAlignment:NSTextAlignmentCenter];
     if (first) {
@@ -294,13 +347,15 @@ NSMutableArray *savedObjs;
         [myLabel setFont:[UIFont fontWithName:@"Raleway-Medium" size:16.0]];
     }
     [myLabel setText:text];
+    CGSize size = [myLabel.text sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Raleway-Bold" size:19.0]}];
+    myLabel.frame = CGRectMake(0, 0, size.width, 60);
     return myLabel;
 }
 
 // format test for bottom slider
 - (UILabel *)labelWithText2:(NSString *)text {
     
-    UILabel *myLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 140, 60)];
+    UILabel *myLabel2 = [[UILabel alloc] init];
     [myLabel2 setTextColor:[UIColor whiteColor]];
     [myLabel2 setTextAlignment:NSTextAlignmentCenter];
     if (first2) {
@@ -311,6 +366,8 @@ NSMutableArray *savedObjs;
         [myLabel2 setFont:[UIFont fontWithName:@"Raleway-Medium" size:16.0]];
     }
     [myLabel2 setText:text];
+    CGSize size = [myLabel2.text sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Raleway-Bold" size:19.0]}];
+    myLabel2.frame = CGRectMake(0, 0, size.width, 60);
     return myLabel2;
 }
 
@@ -336,6 +393,36 @@ NSMutableArray *savedObjs;
     [tutBtn setHidden:true];
 }
 
+// ran when setting button clicked
+- (IBAction)onSettingsClick:(id)sender {
+    // check the screen size and load the proper storyboard
+    if ([[UIScreen mainScreen] bounds].size.height == 480) {
+        //iPhone 4
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main3.5" bundle:nil];
+        
+        FirstViewController *iPhone4View = [storyBoard instantiateViewControllerWithIdentifier:@"Settings"];
+        [self presentViewController:iPhone4View animated:true completion:nil];
+    } else if ([[UIScreen mainScreen] bounds].size.height == 568) {
+        //iPhone 5
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main4" bundle:nil];
+        
+        FirstViewController *iPhone5View = [storyBoard instantiateViewControllerWithIdentifier:@"Settings"];
+        [self presentViewController:iPhone5View animated:true completion:nil];
+    } else if ([[UIScreen mainScreen] bounds].size.height == 667) {
+        //iPhone 6
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main6" bundle:nil];
+        
+        FirstViewController *iPhone6View = [storyBoard instantiateViewControllerWithIdentifier:@"Settings"];
+        [self presentViewController:iPhone6View animated:true completion:nil];
+    } else {
+        //iPhone 6 Plus
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main6p" bundle:nil];
+        
+        FirstViewController *iPhone6pView = [storyBoard instantiateViewControllerWithIdentifier:@"Settings"];
+        [self presentViewController:iPhone6pView animated:true completion:nil];
+    }
+}
+
 // ran when save button clicked
 - (IBAction)onSaveClick:(id)sender {
     NSManagedObjectContext *context = [self managedObjectContext];
@@ -349,10 +436,23 @@ NSMutableArray *savedObjs;
         NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
     }
     
-    // save data to iCloud
-    [savedObjs addObject:[NSString stringWithFormat:@"%@ %@ = %@ %@",valField.text, startLabel.text, resultsLabel.text, resultsNameLabel.text]];
-    [cloudStore setArray: savedObjs forKey:@"conversions"];
-    [cloudStore synchronize];
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    
+    // check to see if iCloud is enabled
+    if ([defaults objectForKey:@"iCloudEnabled"] != nil) {
+        iCloudEnabled = [NSString stringWithFormat:@"%@", [defaults objectForKey:@"iCloudEnabled"]];
+        if ([iCloudEnabled isEqualToString:@"YES"]) {
+            // save data to iCloud
+            [savedObjs addObject:[NSString stringWithFormat:@"%@ %@ = %@ %@",valField.text, startLabel.text, resultsLabel.text, resultsNameLabel.text]];
+            [cloudStore setArray: savedObjs forKey:@"conversions"];
+            [cloudStore synchronize];
+        }
+    } else {
+        // save data to iCloud by default
+        [savedObjs addObject:[NSString stringWithFormat:@"%@ %@ = %@ %@",valField.text, startLabel.text, resultsLabel.text, resultsNameLabel.text]];
+        [cloudStore setArray: savedObjs forKey:@"conversions"];
+        [cloudStore synchronize];
+    }
 }
 
 # pragma fraction button methods

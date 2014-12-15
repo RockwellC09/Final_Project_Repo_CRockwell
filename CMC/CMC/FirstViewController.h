@@ -30,6 +30,7 @@
 - (IBAction)onSaveClick:(id)sender;
 - (IBAction)onClick:(id)sender;
 - (IBAction)onTutClick:(id)sender;
+- (IBAction)onSettingsClick:(id)sender;
 
 @end
 
