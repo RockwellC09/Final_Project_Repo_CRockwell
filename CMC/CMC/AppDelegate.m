@@ -65,6 +65,8 @@
         [self.window makeKeyAndVisible];
     }
     
+    sleep(2.5);
+    
     return YES;
 }
 

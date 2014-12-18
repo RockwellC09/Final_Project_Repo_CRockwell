@@ -26,6 +26,7 @@
 NSMutableArray *saves;
 NSUbiquitousKeyValueStore *cloudStore;
 NSString *iCloudEnabled;
+NSMutableArray *searchResults;
 
 - (void)viewDidLoad {
     
@@ -34,6 +35,7 @@ NSString *iCloudEnabled;
     
     saves = [[NSMutableArray alloc] init];
     cloudStore = [NSUbiquitousKeyValueStore defaultStore];
+    searchResults = [[NSMutableArray alloc] init];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -47,14 +49,14 @@ NSString *iCloudEnabled;
         NSManagedObject *infoObj = [self.info objectAtIndex:i];
         [saves addObject:[infoObj valueForKey:@"conversions"]];
         if (i == [self.info count] - 1) {
-            [myTableView reloadData];
+            [_myTableView reloadData];
         }
     }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [doneBtn setHidden:true];
-    [myTableView setEditing:NO animated:YES];
+    [_myTableView setEditing:NO animated:YES];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -68,10 +70,20 @@ NSString *iCloudEnabled;
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // delete item from table view
-        NSManagedObject *managedObject = [self.info objectAtIndex:indexPath.row];
-        [self.managedObjectContext deleteObject:managedObject];
-        [self.managedObjectContext save:nil];
-        [saves removeObjectAtIndex:indexPath.row];
+        NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Info"];
+        self.info = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+        UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+        NSString *cellText = selectedCell.textLabel.text;
+        for (int i = 0; i < saves.count; i++) {
+            if ([cellText isEqualToString:[saves objectAtIndex:i]]) {
+                NSManagedObject *managedObject = [self.info objectAtIndex:i];
+                [self.managedObjectContext deleteObject:managedObject];
+                [self.managedObjectContext save:nil];
+                [saves removeObjectAtIndex:i];
+            }
+        }
+        
         
         NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
         
@@ -88,7 +100,13 @@ NSString *iCloudEnabled;
             [cloudStore setArray: saves forKey:@"conversions"];
             [cloudStore synchronize];
         }
-        [myTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+
+        if (searchResults.count > 0) {
+            [searchResults removeObjectAtIndex:indexPath.row];
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        } else {
+            [_myTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
     }
 }
 
@@ -104,17 +122,31 @@ NSString *iCloudEnabled;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return saves.count;
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return [searchResults count];
+        
+    } else {
+        return saves.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
+    }
+    
     [cell.textLabel setFont:[UIFont fontWithName:@"Raleway-Medium" size:16.0]];
     cell.textLabel.numberOfLines = 2;
     cell.textLabel.textColor = [UIColor whiteColor];
-    cell.textLabel.text = [saves objectAtIndex:indexPath.row];
+    cell.backgroundColor = [UIColor colorWithRed:0.82 green:0.125 blue:0.157 alpha:1]; /*#d12028*/
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        cell.textLabel.text = [searchResults objectAtIndex:indexPath.row];
+    } else {
+        cell.textLabel.text = [saves objectAtIndex:indexPath.row];
+    }
     
     return cell;
 }
@@ -132,7 +164,8 @@ NSString *iCloudEnabled;
 // ran when check button is clicked to stop table view editing
 - (IBAction)onDoneClick:(id)sender {
     [doneBtn setHidden:true];
-    [myTableView setEditing:NO animated:YES];
+    [_myTableView setEditing:NO animated:YES];
+    [self.searchDisplayController.searchResultsTableView setEditing:NO animated:true];
 }
 
 // determines alert selection
@@ -159,13 +192,13 @@ NSString *iCloudEnabled;
                         } else {
                             [saves removeAllObjects];
                         }
-                        [myTableView reloadData];
+                        [_myTableView reloadData];
                     } else {
                         // remove all data from iCloud by default
                         [saves removeAllObjects];
                         [cloudStore setArray: saves forKey:@"conversions"];
                         [cloudStore synchronize];
-                        [myTableView reloadData];
+                        [_myTableView reloadData];
                     }
                 }
             }
@@ -186,6 +219,45 @@ NSString *iCloudEnabled;
         }
     }
 }
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [_myTableView reloadData];
+    [searchResults removeAllObjects];
+    [doneBtn setHidden:true];
+    [self.searchDisplayController.searchResultsTableView setEditing:NO animated:true];
+}
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    NSPredicate *resultPredicate = [NSPredicate
+                                    predicateWithFormat:@"SELF contains[cd] %@",
+                                    searchText];
+    
+    [searchResults removeAllObjects];
+    [searchResults addObjectsFromArray:[saves filteredArrayUsingPredicate:resultPredicate]];
+}
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller
+ willShowSearchResultsTableView:(UITableView *)tableView
+{
+    //    [tableView setFrame:CGRectMake(__myTableView.frame.origin.x, __myTableView.frame.origin.y, __myTableView.frame.size.width, __myTableView.frame.size.height)];
+    [tableView setBackgroundColor:[UIColor colorWithRed:0.82 green:0.125 blue:0.157 alpha:1] /*#d12028*/];
+    [tableView setRowHeight:60.0f];
+    tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
+}
+
+#pragma mark - UISearchDisplayController delegate methods
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller
+shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles]
+                                      objectAtIndex:[self.searchDisplayController.searchBar
+                                                     selectedScopeButtonIndex]]];
+    
+    return YES;
+}
+
 
 /*
 #pragma mark - Navigation

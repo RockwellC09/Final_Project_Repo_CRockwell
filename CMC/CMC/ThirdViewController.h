@@ -10,10 +10,10 @@
 
 @interface ThirdViewController : UIViewController  <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 {
-    IBOutlet UITableView *myTableView;
     IBOutlet UIButton *doneBtn;
 }
 
 - (IBAction)onClick:(id)sender;
 - (IBAction)onDoneClick:(id)sender;
+@property (nonatomic, strong) IBOutlet UITableView *myTableView;
 @end

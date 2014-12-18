@@ -44,6 +44,9 @@ NSArray *subs;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    // show status bar
+    [[UIApplication sharedApplication] setStatusBarHidden:false];
+    
     // set tabbat color
     [[UITabBar appearance] setTintColor:[UIColor colorWithRed:0.82 green:0.125 blue:0.157 alpha:1] /*#d12028*/];
     

@@ -21,11 +21,15 @@
             <string>Raleway-Bold</string>
             <string>Raleway-Bold</string>
             <string>Raleway-Bold</string>
+            <string>Raleway-Bold</string>
         </mutableArray>
         <mutableArray key="Raleway-Medium.ttf">
             <string>Raleway-Medium</string>
             <string>Raleway-Medium</string>
             <string>Raleway-Medium</string>
+        </mutableArray>
+        <mutableArray key="Raleway-Regular.ttf">
+            <string>Raleway</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -269,7 +273,6 @@
                                 </state>
                                 <connections>
                                     <action selector="onAddClick:" destination="Nrg-bM-i4d" eventType="touchUpInside" id="u5J-Q6-Kur"/>
-                                    <action selector="onDoneClick:" destination="Nrg-bM-i4d" eventType="touchUpInside" id="K6i-ei-uNd"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pcx-CV-TAX">
@@ -281,7 +284,6 @@
                                 </state>
                                 <connections>
                                     <action selector="onAddClick:" destination="Nrg-bM-i4d" eventType="touchUpInside" id="XGV-cW-pBJ"/>
-                                    <action selector="onDoneClick:" destination="Nrg-bM-i4d" eventType="touchUpInside" id="AYr-Kk-WyQ"/>
                                 </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="Zau-xn-mPG">
@@ -356,6 +358,7 @@
                                 </state>
                                 <connections>
                                     <action selector="onDoneClick:" destination="p27-24-sJX" eventType="touchUpInside" id="l49-0Z-VRW"/>
+                                    <action selector="onDoneClick:" destination="Nrg-bM-i4d" eventType="touchUpInside" id="xjn-HV-FBi"/>
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dig-eX-lR9">
@@ -365,6 +368,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="onDoneClick:" destination="Nrg-bM-i4d" eventType="touchUpInside" id="ZEJ-df-n2g"/>
                                     <action selector="onDoneClick:" destination="p27-24-sJX" eventType="touchUpInside" id="uha-bx-BlN"/>
                                 </connections>
                             </button>
@@ -440,7 +444,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="Bye-Zt-FhK">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="108" width="375" height="510"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.81960784310000001" green="0.12549019610000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="separatorColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -469,6 +473,15 @@
                                     <action selector="onClick:" destination="p27-24-sJX" eventType="touchUpInside" id="7Ev-Yu-Phl"/>
                                 </connections>
                             </button>
+                            <searchBar contentMode="redraw" placeholder="Search for saves" id="wKb-Ow-rjF">
+                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="barTintColor" red="0.86598875659999996" green="0.86598875659999996" blue="0.86598875659999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="p27-24-sJX" id="E7w-Gj-wpm"/>
+                                </connections>
+                            </searchBar>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="w4W-hV-zMH">
                                 <rect key="frame" x="16" y="26" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -487,9 +500,19 @@
                     <connections>
                         <outlet property="doneBtn" destination="w4W-hV-zMH" id="GEd-hr-FCf"/>
                         <outlet property="myTableView" destination="Bye-Zt-FhK" id="W4a-7D-EUU"/>
+                        <outlet property="searchDisplayController" destination="0vq-1x-sGJ" id="ZdW-eJ-kb2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7TP-Hg-s9N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="0vq-1x-sGJ">
+                    <connections>
+                        <outlet property="delegate" destination="p27-24-sJX" id="sEj-gQ-lrh"/>
+                        <outlet property="searchBar" destination="wKb-Ow-rjF" id="gOC-aH-SNR"/>
+                        <outlet property="searchContentsController" destination="p27-24-sJX" id="Gtk-eA-YL9"/>
+                        <outlet property="searchResultsDataSource" destination="p27-24-sJX" id="01z-w0-YUx"/>
+                        <outlet property="searchResultsDelegate" destination="p27-24-sJX" id="9pN-P6-JdQ"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="399.5" y="1122.5"/>
         </scene>
@@ -516,21 +539,16 @@
                                 <color key="textColor" red="0.81960784310000001" green="0.12549019610000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save to iCloud" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="em5-DA-GrS">
-                                <rect key="frame" x="89" y="127" width="118" height="21"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6wB-eB-Utn">
+                                <rect key="frame" x="2" y="20" width="51" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Raleway-Medium" family="Raleway" pointSize="17"/>
-                                <color key="textColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="highlightedColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="Yo3-Ye-PIW">
-                                <rect key="frame" x="236" y="122" width="51" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="onTintColor" red="0.81960784310000001" green="0.12549019610000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                                 <connections>
-                                    <action selector="onSwitch:" destination="S7s-mG-Gxs" eventType="valueChanged" id="bsQ-QC-nLc"/>
+                                    <action selector="onBackClick:" destination="S7s-mG-Gxs" eventType="touchUpInside" id="1zx-rq-ZoU"/>
                                 </connections>
-                            </switch>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ZdP-B6-wXY">
                                 <rect key="frame" x="94" y="192" width="187" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -553,16 +571,42 @@
                                     <action selector="onBackClick:" destination="S7s-mG-Gxs" eventType="touchUpInside" id="By4-72-sxm"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6wB-eB-Utn">
-                                <rect key="frame" x="2" y="20" width="51" height="44"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="2Ps-tD-ine">
+                                <rect key="frame" x="96" y="254" width="182" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal">
+                                <fontDescription key="fontDescription" name="Raleway-Bold" family="Raleway" pointSize="16"/>
+                                <state key="normal" title="Feedback/Support">
+                                    <color key="titleColor" red="0.81960784310000001" green="0.12549019610000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="onBackClick:" destination="S7s-mG-Gxs" eventType="touchUpInside" id="1zx-rq-ZoU"/>
+                                    <action selector="feedbackClick:" destination="S7s-mG-Gxs" eventType="touchUpInside" id="UsV-u2-1qz"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="V96-ga-Qk6">
+                                <rect key="frame" x="56" y="340" width="262" height="269"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Cooking Measurements Converter is built to give cooks, like you, a more convenient way to convert your measurements. We hope to be your cooking companion and make your life easier. If you can think of anything we can add to better convenience you in the kitchen please let us know by clicking the Feedback/Support button and send us an email. Thanks for choosing CMC.</string>
+                                <color key="textColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="Raleway" family="Raleway" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save to iCloud" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="em5-DA-GrS">
+                                <rect key="frame" x="89" y="127" width="118" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Raleway-Medium" family="Raleway" pointSize="17"/>
+                                <color key="textColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="highlightedColor" red="0.2666666667" green="0.2666666667" blue="0.2666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="Yo3-Ye-PIW">
+                                <rect key="frame" x="236" y="122" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="onTintColor" red="0.81960784310000001" green="0.12549019610000001" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="onSwitch:" destination="S7s-mG-Gxs" eventType="valueChanged" id="bsQ-QC-nLc"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>

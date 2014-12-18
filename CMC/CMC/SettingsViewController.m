@@ -209,6 +209,10 @@ NSMutableArray *info;
     [self dismissViewControllerAnimated:true completion:nil];
 }
 
+- (IBAction)feedbackClick:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"mailto://rockwellc09@gmail.com?subject=Feedback/Support"]];
+}
+
 /*
 #pragma mark - Navigation
 

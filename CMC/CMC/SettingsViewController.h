@@ -16,5 +16,6 @@
 - (IBAction)iCloudClick:(id)sender;
 - (IBAction)onBackClick:(id)sender;
 - (IBAction)onSwitch:(id)sender;
+- (IBAction)feedbackClick:(id)sender;
 
 @end

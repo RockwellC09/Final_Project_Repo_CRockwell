@@ -28,12 +28,20 @@ NSArray *subs;
 NSUbiquitousKeyValueStore *cloudStore;
 NSString *iCloudEnabled;
 NSMutableArray *searchResults;
+NSString *tableCellText;
+UIAlertView *editDeleteAlert;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
     cloudStore = [NSUbiquitousKeyValueStore defaultStore];
+    editDeleteAlert = [[UIAlertView alloc] initWithTitle:@"Edit/Delete Substitution"
+                                                              message:@"What would you like to do?"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                                    otherButtonTitles:@"Edit", @"Delete", nil];
+    [editDeleteAlert setTag:7];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -264,6 +272,128 @@ NSMutableArray *searchResults;
             }
         }
     
+    } else if (alertView.tag == 7) {
+        if (buttonIndex == 1) {
+            UIAlertView * editAlert = [[UIAlertView alloc] initWithTitle:@"Edit Substitution" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+            editAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            UITextField * alertTextField = [editAlert textFieldAtIndex:0];
+            alertTextField.text = [NSString stringWithFormat:@"%@", tableCellText];
+            [editAlert setTag:10];
+            [editAlert show];
+            // delete item from table view
+            if (subSeg.selectedSegmentIndex == 0) {
+                NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Us_Imp"];
+                self.info = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+                for (int i = 0; i < saves.count; i++) {
+                    if ([tableCellText isEqualToString:[saves objectAtIndex:i]]) {
+                        NSManagedObject *managedObject = [self.info objectAtIndex:i];
+                        [self.managedObjectContext deleteObject:managedObject];
+                        [self.managedObjectContext save:nil];
+                        [saves removeObjectAtIndex:i];
+                    }
+                }
+            } else {
+                NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+                NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Metric"];
+                self.info = [[managedObjectContext executeFetchRequest:fetchRequest error:nil] mutableCopy];
+                for (int i = 0; i < saves.count; i++) {
+                    if ([tableCellText isEqualToString:[saves objectAtIndex:i]]) {
+                        NSManagedObject *managedObject = [self.info objectAtIndex:i];
+                        [self.managedObjectContext deleteObject:managedObject];
+                        [self.managedObjectContext save:nil];
+                        [saves removeObjectAtIndex:i];
+                    }
+                }
+            }
+        } else if (buttonIndex == 2) {
+            [doneBtn setHidden:false];
+            [doneBtn2 setHidden:false];
+            [addBtn setHidden:true];
+            [addBtn2 setHidden:true];
+            [_myTableView setEditing:YES animated:YES];
+        }
+    } else if (alertView.tag == 10) {
+        if (buttonIndex == 1) {
+            [saves addObject:[NSString stringWithFormat:@"%@", [alertView textFieldAtIndex:0].text]];
+            [_myTableView reloadData];
+            
+            if (subSeg.selectedSegmentIndex == 0) {
+                // save entry to Core Data
+                NSManagedObjectContext *context = [self managedObjectContext];
+                NSManagedObject *newInfo = [NSEntityDescription insertNewObjectForEntityForName:@"Us_Imp" inManagedObjectContext:context];
+                [newInfo setValue:[NSString stringWithFormat:@"%@", [alertView textFieldAtIndex:0].text] forKey:@"us_imp_substitutions"];
+                NSError *error = nil;
+                // Save the object to persistent store
+                if (![context save:&error]) {
+                    NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+                }
+            } else {
+                // save entry to Core Data
+                NSManagedObjectContext *context = [self managedObjectContext];
+                NSManagedObject *newInfo = [NSEntityDescription insertNewObjectForEntityForName:@"Metric" inManagedObjectContext:context];
+                [newInfo setValue:[NSString stringWithFormat:@"%@", [alertView textFieldAtIndex:0].text] forKey:@"metric_substitutions"];
+                NSError *error = nil;
+                // Save the object to persistent store
+                if (![context save:&error]) {
+                    NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+                }
+            }
+            
+            // check to see if iCloud is enabled
+            NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+            if ([defaults objectForKey:@"iCloudEnabled"] != nil) {
+                if ([iCloudEnabled isEqualToString:@"YES"]) {
+                    // save entry to iCloud
+                    NSMutableArray *iCloudSaveArray = [[NSMutableArray alloc] init];
+                    NSArray *result;
+                    if (subSeg.selectedSegmentIndex == 0) {
+                        result = [cloudStore arrayForKey:@"us_imp_substitutions"];
+                        if (result != nil) {
+                            for (int i = 0; i < result.count; i++) {
+                                [iCloudSaveArray addObject:[result objectAtIndex:i]];
+                            }
+                        }
+                        [iCloudSaveArray addObject:[NSString stringWithFormat:@"%@", [alertView textFieldAtIndex:0].text]];
+                        [cloudStore setArray: iCloudSaveArray forKey:@"us_imp_substitutions"];
+                    } else {
+                        result = [cloudStore arrayForKey:@"metric_substitutions"];
+                        if (result != nil) {
+                            for (int i = 0; i < result.count; i++) {
+                                [iCloudSaveArray addObject:[result objectAtIndex:i]];
+                            }
+                        }
+                        [iCloudSaveArray addObject:[NSString stringWithFormat:@"%@", [alertView textFieldAtIndex:0].text]];
+                        [cloudStore setArray: iCloudSaveArray forKey:@"metric_substitutions"];
+                    }
+                    [cloudStore synchronize];
+                }
+            } else {
+                // save entry to iCloud by default
+                NSMutableArray *iCloudSaveArray = [[NSMutableArray alloc] init];
+                NSArray *result;
+                if (subSeg.selectedSegmentIndex == 0) {
+                    result = [cloudStore arrayForKey:@"us_imp_substitutions"];
+                    if (result != nil) {
+                        for (int i = 0; i < result.count; i++) {
+                            [iCloudSaveArray addObject:[result objectAtIndex:i]];
+                        }
+                    }
+                    [iCloudSaveArray addObject:[NSString stringWithFormat:@"%@", [alertView textFieldAtIndex:0].text]];
+                    [cloudStore setArray: iCloudSaveArray forKey:@"us_imp_substitutions"];
+                } else {
+                    result = [cloudStore arrayForKey:@"metric_substitutions"];
+                    if (result != nil) {
+                        for (int i = 0; i < result.count; i++) {
+                            [iCloudSaveArray addObject:[result objectAtIndex:i]];
+                        }
+                    }
+                    [iCloudSaveArray addObject:[NSString stringWithFormat:@"%@", [alertView textFieldAtIndex:0].text]];
+                    [cloudStore setArray: iCloudSaveArray forKey:@"metric_substitutions"];
+                }
+                [cloudStore synchronize];
+            }
+        }
     } else {
         if (buttonIndex == 0) {
             // cancel button clicked
@@ -440,13 +570,20 @@ NSMutableArray *searchResults;
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     [_myTableView reloadData];
     [searchResults removeAllObjects];
+    [doneBtn setHidden:true];
+    [doneBtn2 setHidden:true];
+    [addBtn setHidden:false];
+    [addBtn2 setHidden:false];
+    [self.searchDisplayController.searchResultsTableView setEditing:NO animated:true];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [doneBtn setHidden:false];
-    [doneBtn2 setHidden:false];
-    [addBtn setHidden:true];
-    [addBtn2 setHidden:true];
-    [tableView setEditing:YES animated:YES];
+    // edit delete alert
+    [editDeleteAlert performSelectorOnMainThread:@selector(show) withObject:nil waitUntilDone:NO];
+    
+    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+    NSString *cellText = selectedCell.textLabel.text;
+    tableCellText = [NSString stringWithFormat:@"%@", cellText];
+    
 }
 
 // ran when check button is clicked to stop table view editing
@@ -456,6 +593,7 @@ NSMutableArray *searchResults;
     [addBtn setHidden:false];
     [addBtn2 setHidden:false];
     [_myTableView setEditing:NO animated:YES];
+    [self.searchDisplayController.searchResultsTableView setEditing:NO animated:true];
 }
 
 
